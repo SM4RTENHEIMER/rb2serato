@@ -65,7 +65,8 @@ _CAMELOT = {
     "1B": "B", "2B": "F#", "3B": "Db", "4B": "Ab", "5B": "Eb", "6B": "Bb",
     "7B": "F", "8B": "C", "9B": "G", "10B": "D", "11B": "A", "12B": "E",
 }
-_OPEN_KEY = {k.replace("A", "m").replace("B", "d"): v for k, v in _CAMELOT.items()}
+# Open Key starts its wheel at C major (1d = 8B), so its numbers run 5 ahead of Camelot's.
+_OPEN_KEY = {f"{(int(k[:-1]) + 4) % 12 + 1}{'m' if k.endswith('A') else 'd'}": v for k, v in _CAMELOT.items()}
 _STANDARD = re.compile(r"^([A-Ga-g])([#b♯♭]?)\s*(m|min|minor|maj|major|dur|mol|moll)?$")
 
 

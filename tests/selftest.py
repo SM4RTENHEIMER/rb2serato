@@ -222,7 +222,7 @@ def test_conversion():
     check("serato_grid shifts to downbeat", abs(g2[0].position_sec - 2.0) < 1e-6)
 
     check("kind_to_slot", [rekordbox.kind_to_slot(k) for k in (0, 1, 2, 3, 5, 6, 7, 8, 9, 10)] == [None, 0, 1, 2, 3, 4, 5, 6, 7, 8])
-    for src, want in [("8A", "Am"), ("5B", "Eb"), ("F#m", "F#m"), ("Bbm", "Bbm"), ("1m", "Abm"), ("12d", "E"), ("Amin", "Am"), ("Db", "Db"), ("", ""), ("weird", "weird"), ("10a", "Bm")]:
+    for src, want in [("8A", "Am"), ("5B", "Eb"), ("F#m", "F#m"), ("Bbm", "Bbm"), ("1m", "Am"), ("12d", "F"), ("Amin", "Am"), ("Db", "Db"), ("", ""), ("weird", "weird"), ("10a", "Bm")]:
         check(f"normalize_key {src}", convert.normalize_key(src) == want, convert.normalize_key(src))
 
     cues = [Cue(311, slot=0, name="CUE(Auto)", rgb=(0xFF, 0x37, 0x6F))] + [Cue(1000 * s, slot=s, name="CUE(Auto)") for s in range(1, 9)] + [Cue(500), Cue(700, end_ms=1200), Cue(100)]
