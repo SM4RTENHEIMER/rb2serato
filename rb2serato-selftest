@@ -1,0 +1,3 @@
+#!/bin/sh
+HERE="$(cd "$(dirname "$0")" && pwd)"
+PYTHONPATH="$HERE/src:$HERE" exec "$HERE/.venv/bin/python" -m tests.selftest "$@"

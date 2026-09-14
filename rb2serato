@@ -1,0 +1,8 @@
+#!/bin/sh
+# Run rb2serato from its own virtualenv.
+HERE="$(cd "$(dirname "$0")" && pwd)"
+if [ ! -x "$HERE/.venv/bin/python" ]; then
+  echo "Run ./setup.sh first." >&2
+  exit 1
+fi
+PYTHONPATH="$HERE/src" exec "$HERE/.venv/bin/python" -m rb2serato "$@"

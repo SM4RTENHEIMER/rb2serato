@@ -1,0 +1,2 @@
+mutagen>=1.47          # reading/writing ID3, MP4, WAV and AIFF tags
+cryptography>=41.0     # AES for the Rekordbox SQLCipher page decryption
