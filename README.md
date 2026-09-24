@@ -9,14 +9,22 @@ your grids. Built and verified on a 9,600-track library (MP3, M4A, WAV, AIFF), m
 Serato DJ Pro 4.0.
 
 ```
-./setup.sh                                   # one-time: virtualenv with two dependencies
-./rb2serato plan   --xml Collection.xml      # shows what would happen; changes nothing
-./rb2serato tags   --xml Collection.xml      # cues, loops, beatgrid, key, BPM into the files
-./rb2serato crates --xml Collection.xml      # crates + database into ~/Music/_Serato_ (Serato closed)
-./rb2serato columns --xml Collection.xml     # optional: column layout of the new crates (Serato closed)
-./rb2serato verify --xml Collection.xml      # reads everything back and compares
-./rb2serato undo                             # puts the files' tags and _Serato_ back
+git clone https://github.com/SM4RTENHEIMER/rb2serato.git
+cd rb2serato
+./setup.sh
+./rb2serato plan --xml Collection.xml
 ```
+
+`setup.sh` is a one-time step that creates a virtualenv with the two dependencies. Then:
+
+| Command | What it does |
+|---|---|
+| `./rb2serato plan --xml Collection.xml` | Shows what would happen; changes nothing |
+| `./rb2serato tags --xml Collection.xml` | Writes cues, loops, beatgrid, key and BPM into the files |
+| `./rb2serato crates --xml Collection.xml` | Writes crates and the database into `~/Music/_Serato_` (Serato closed) |
+| `./rb2serato columns --xml Collection.xml` | Optional: column layout of the new crates (Serato closed) |
+| `./rb2serato verify --xml Collection.xml` | Reads everything back and compares |
+| `./rb2serato undo` | Puts the files' tags and `_Serato_` back |
 
 > **This writes into your music files and into Serato's library.** Every change is
 > reversible with `undo` (the old tag bytes are logged before a file is touched, and the
@@ -121,7 +129,13 @@ The tag formats rest on Jan Holthuis's [serato-tags] documentation and on Mixxx'
 code; the Rekordbox database handling on [pyrekordbox]; the Rekordbox cue colour table on
 [beat-link]. Reference parsers from serato-tags are vendored under `tests/vendor` (MIT).
 
-MIT licence.
+## Licence
+
+MIT, see [LICENSE](LICENSE). The vendored test parsers keep their own MIT licence in
+`tests/vendor/LICENSE`.
+
+rb2serato is an independent project and is not affiliated with or endorsed by Serato or
+AlphaTheta (Rekordbox). It ships no code, keys or assets from either.
 
 [Holzhaus/serato-tags]: https://github.com/Holzhaus/serato-tags
 [serato-tags]: https://github.com/Holzhaus/serato-tags
