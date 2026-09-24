@@ -24,13 +24,48 @@ cd rb2serato
 | `./rb2serato crates --xml Collection.xml` | Writes crates and the database into `~/Music/_Serato_` (Serato closed) |
 | `./rb2serato columns --xml Collection.xml` | Optional: column layout of the new crates (Serato closed) |
 | `./rb2serato verify --xml Collection.xml` | Reads everything back and compares |
+| `./rb2serato status --xml Collection.xml` | Key figures for Rekordbox and Serato, and the latest undo log |
 | `./rb2serato undo` | Puts the files' tags and `_Serato_` back |
+
+`./rb2serato run` does `tags` and `crates` in one go.
 
 > **This writes into your music files and into Serato's library.** Every change is
 > reversible with `undo` (the old tag bytes are logged before a file is touched, and the
 > `_Serato_` folder and Serato's SQLite files are backed up), and each file is rewritten on
 > a clone that is only swapped in after the audio data has been proven byte-identical.
 > Still: have a backup, run `plan` first, and try `tags --limit 20` before the whole library.
+
+## Step by step
+
+The order matters: Serato has to be closed for some steps and has to have imported the
+crates before others.
+
+1. **Back up** your music and `~/Music/_Serato_` (a Time Machine backup is fine).
+2. In Rekordbox: **File → Export Collection in xml format**, e.g. to
+   `~/Desktop/Collection.xml`.
+3. Clone this repository and run `./setup.sh`. The first time `/usr/bin/python3` runs,
+   macOS may offer to install the Xcode Command Line Tools; accept.
+4. `./rb2serato plan --xml ~/Desktop/Collection.xml`. Read what it says about missing
+   files, cues that do not fit in Serato's 8 slots, and the crate tree. The full report is
+   in `out/plan.json`.
+5. Try 20 files: `./rb2serato tags --xml ~/Desktop/Collection.xml --limit 20`. Check a few of
+   them in Serato (drag them in if Serato does not have them yet). If something looks wrong,
+   `./rb2serato undo` puts them back.
+6. All files: the same command without `--limit`. Progress is printed every 250 files.
+7. **Quit Serato**, then `./rb2serato crates --xml ~/Desktop/Collection.xml`.
+8. Start Serato and let it import the library; the first import can take a few minutes.
+   The Rekordbox playlists are now crates.
+9. Optional, for the column layout: **quit Serato** again, run
+   `./rb2serato columns --xml ~/Desktop/Collection.xml`, and start Serato. This only works
+   after step 8, because it edits the crates Serato has imported.
+10. `./rb2serato verify --xml ~/Desktop/Collection.xml` reads every file back and compares.
+    Add `--serato-db` to also count what ended up in Serato's library.
+
+Keep the rb2serato folder afterwards: the undo logs and the backups of `_Serato_` and
+Serato's database live in its `state/` folder, and `undo` needs them.
+
+Tracks on an external drive get their crates in that drive's own `_Serato_` folder, which
+is where Serato looks for them. The drive must be connected during step 7.
 
 ## Input: XML export or master.db
 
