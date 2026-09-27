@@ -164,6 +164,16 @@ The tag formats rest on Jan Holthuis's [serato-tags] documentation and on Mixxx'
 code; the Rekordbox database handling on [pyrekordbox]; the Rekordbox cue colour table on
 [beat-link]. Reference parsers from serato-tags are vendored under `tests/vendor` (MIT).
 
+## Your responsibility
+
+rb2serato is provided as it is, without warranty of any kind (see the licence). It writes
+into your music files and into Serato's library. `undo` and its backups are there to help,
+but they do not replace your own backup: back up your music and `~/Music/_Serato_` before
+you run it, run `plan` first, and check the result in Serato before you play from it. Cues,
+grids, keys and BPM are translated by rules that can be wrong for your tracks. The author
+takes no responsibility for lost or changed files, cues or libraries, or anything else that
+comes of using it, as far as the law allows.
+
 ## Licence
 
 MIT, see [LICENSE](LICENSE). The vendored test parsers keep their own MIT licence in
